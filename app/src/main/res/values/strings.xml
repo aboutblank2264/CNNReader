@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CNNReader</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="base_url">https://newsapi.org/v2/</string>
+    <string name="connect_timeOut">30</string>
+    <string name="read_timeOut">30</string>
+    <string name="article_image">article image</string>
+    <string name="cacheName">cnnCacheFile</string>
+</resources>

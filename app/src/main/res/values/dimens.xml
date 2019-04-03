@@ -1,0 +1,12 @@
+<resources>
+    <dimen name="rv_item_padding">8dp</dimen>
+    <dimen name="image_padding">4dp</dimen>
+    <dimen name="date_padding">2dp</dimen>
+
+    <dimen name="title_padding">4dp</dimen>
+    <dimen name="summary_padding">4dp</dimen>
+
+    <dimen name="title_font">18sp</dimen>
+    <dimen name="date_font">16sp</dimen>
+    <dimen name="summary_font">14sp</dimen>
+</resources>

@@ -1,0 +1,54 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="recyclerViewLayoutStyle">@style/AppTheme.RecyclerItem</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorSecondary">@color/colorLight</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.Toolbar">
+        <item name="titleTextColor">?android:attr/colorSecondary</item>
+    </style>
+
+    <style name="AppTheme.SwipeContainer" parent="Theme.AppCompat.Light"></style>
+
+    //------------------------------------------------------------------------------
+    //-------------------------RecycleView Items------------------------------------
+    //------------------------------------------------------------------------------
+
+    <style name="AppTheme.RecyclerItem">
+        <item name="android:background">@android:drawable/dialog_holo_light_frame</item>
+        <item name="android:padding">@dimen/rv_item_padding</item>
+    </style>
+
+    <style name="AppTheme.Image">
+        <item name="android:padding">@dimen/image_padding</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="AppTheme.Title">
+        <item name="android:textSize">@dimen/title_font</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">@dimen/title_padding</item>
+    </style>
+
+    <style name="AppTheme.Date">
+        <item name="android:textSize">@dimen/date_font</item>
+        <item name="android:padding">@dimen/date_padding</item>
+    </style>
+
+    <style name="AppTheme.Summary">
+        <item name="android:textSize">@dimen/summary_font</item>
+        <item name="android:padding">@dimen/summary_padding</item>
+    </style>
+</resources>
