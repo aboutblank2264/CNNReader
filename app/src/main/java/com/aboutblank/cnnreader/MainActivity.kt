@@ -1,6 +1,7 @@
 package com.aboutblank.cnnreader
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -10,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.aboutblank.cnnreader.backend.IImageService
 import com.aboutblank.cnnreader.backend.INewsService
-import com.aboutblank.cnnreader.backend.NewsService.Status
+import com.aboutblank.cnnreader.backend.StatusEnum.ERROR
+import com.aboutblank.cnnreader.backend.StatusEnum.OK
 import com.aboutblank.cnnreader.ui.NewsRecyclerAdapter
 import com.aboutblank.cnnreader.utils.IntentReceiver
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,10 +44,15 @@ class MainActivity : AppCompatActivity() {
         viewModel.init(newsService, imageService, intentReceiver)
 
         viewModel.observeStatus(this, Observer {
-            if (it == Status.OK) {
+            if (it.status == OK) {
                 swipeLayout.isRefreshing = false
-            } else if (it == Status.ERROR) {
-                Toast.makeText(this, "Something has gone wrong!", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "OK ${it.message}")
+            } else if (it.status == ERROR) {
+                Toast.makeText(
+                    this,
+                    "Something has gone wrong: ${it.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
 

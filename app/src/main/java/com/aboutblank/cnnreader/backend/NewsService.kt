@@ -12,7 +12,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 interface INewsService {
-    var statusLiveData: MutableLiveData<NewsService.Status>
+    var statusLiveData: MutableLiveData<Status>
     var articleLiveData: MutableLiveData<List<Article>>
     fun getNews()
 }
@@ -24,12 +24,12 @@ class NewsService(private val remoteRepo: CNNRemoteRepo, private val cacheRepo: 
     override var articleLiveData: MutableLiveData<List<Article>> = MutableLiveData()
 
     init {
-        statusLiveData.postValue(Status.LOADING)
+        statusLiveData.postValue(Status(StatusEnum.LOADING))
     }
 
     override fun getNews() {
         Log.d(TAG, "Fetching news")
-        statusLiveData.postValue(Status.LOADING)
+        statusLiveData.postValue(Status(StatusEnum.LOADING))
 
         remoteRepo.getNews().enqueue(object : Callback<NewsResponse> {
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
@@ -37,10 +37,9 @@ class NewsService(private val remoteRepo: CNNRemoteRepo, private val cacheRepo: 
             }
 
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
-                Log.d(TAG, "Success! ${response.body()!!.status}")
                 if (response.isSuccessful && response.body()!!.status == "ok") {
                     articleLiveData.postValue(response.body()!!.articles)
-                    statusLiveData.postValue(Status.OK)
+                    statusLiveData.postValue(Status(StatusEnum.OK, response.message()))
 
                     CacheAsyncTask(response.body()!!.articles, ::cacheNews).execute()
                 } else {
@@ -54,11 +53,11 @@ class NewsService(private val remoteRepo: CNNRemoteRepo, private val cacheRepo: 
         Log.d(TAG, "Unable to reach news service, attempting to retrieve cache")
         val retrieved = cacheRepo.getArticles()
         if (retrieved == null) {
-            statusLiveData.postValue(Status.ERROR)
+            statusLiveData.postValue(Status(StatusEnum.ERROR, "Unable to retrieve cached articles"))
             Log.d(TAG, "Unable to retrieve cached articles")
         } else {
             articleLiveData.postValue(retrieved)
-            statusLiveData.postValue(Status.OK)
+            statusLiveData.postValue(Status(StatusEnum.OK, "Retrieved cached articles"))
             Log.d(TAG, "Retrieved cached articles")
         }
     }
@@ -66,11 +65,5 @@ class NewsService(private val remoteRepo: CNNRemoteRepo, private val cacheRepo: 
     private fun cacheNews(articles: List<Article>) {
         Log.d(TAG, "Attempting to cache articles")
         cacheRepo.saveArticles(articles)
-    }
-
-    enum class Status {
-        OK,
-        ERROR,
-        LOADING
     }
 }

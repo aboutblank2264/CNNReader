@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModel
 import com.aboutblank.cnnreader.backend.Article
 import com.aboutblank.cnnreader.backend.IImageService
 import com.aboutblank.cnnreader.backend.INewsService
-import com.aboutblank.cnnreader.backend.NewsService.Status
+import com.aboutblank.cnnreader.backend.Status
 import com.aboutblank.cnnreader.utils.IntentReceiver
 import kotlin.random.Random
 
