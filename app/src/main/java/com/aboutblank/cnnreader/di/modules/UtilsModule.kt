@@ -2,7 +2,6 @@ package com.aboutblank.cnnreader.di.modules
 
 import android.content.Context
 import com.aboutblank.cnnreader.NewsApplication
-import com.aboutblank.cnnreader.utils.IntentReceiver
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -14,10 +13,6 @@ class UtilsModule(private val application: NewsApplication) {
     @Singleton
     @Provides
     fun provideContext(): Context = application
-
-    @Singleton
-    @Provides
-    fun provideIntentReceiver(): IntentReceiver = application
 
     @Singleton
     @Provides

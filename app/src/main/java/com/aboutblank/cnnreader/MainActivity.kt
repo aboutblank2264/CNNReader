@@ -1,7 +1,10 @@
 package com.aboutblank.cnnreader
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -13,21 +16,19 @@ import com.aboutblank.cnnreader.backend.IImageService
 import com.aboutblank.cnnreader.backend.INewsService
 import com.aboutblank.cnnreader.backend.StatusEnum.ERROR
 import com.aboutblank.cnnreader.backend.StatusEnum.OK
+import com.aboutblank.cnnreader.ui.NewsAdapterListener
 import com.aboutblank.cnnreader.ui.NewsRecyclerAdapter
-import com.aboutblank.cnnreader.utils.IntentReceiver
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_layout.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NewsAdapterListener {
     private val TAG = MainActivity::class.java.name
 
     @Inject
     lateinit var newsService: INewsService
     @Inject
     lateinit var imageService: IImageService
-    @Inject
-    lateinit var intentReceiver: IntentReceiver
 
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         NewsApplication.appComponent.inject(this)
 
         viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
-        viewModel.init(newsService, imageService, intentReceiver)
+        viewModel.init(newsService, imageService)
 
         viewModel.observeStatus(this, Observer {
             if (it.status == OK) {
@@ -56,6 +57,10 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.observeArticles(this, Observer {
+            (recyclerView.adapter as NewsRecyclerAdapter).update(it)
+        })
+
         swipeLayout = main_swipe_container.apply {
             setOnRefreshListener {
                 viewModel.refresh()
@@ -64,7 +69,20 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = main_recycler_view.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
-            adapter = NewsRecyclerAdapter(this@MainActivity, mutableListOf(), viewModel)
+            adapter = NewsRecyclerAdapter(viewModel.type, this@MainActivity)
         }
+    }
+
+    override fun onClick(url: String) {
+        Log.d(TAG, "Load URL $url")
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(url)
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+    }
+
+    override fun onLoadImage(image: String, view: ImageView) {
+        viewModel.loadImage(image, view)
     }
 }

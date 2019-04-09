@@ -7,9 +7,9 @@ import com.aboutblank.cnnreader.backend.IImageService
 import com.aboutblank.cnnreader.backend.INewsService
 import com.aboutblank.cnnreader.backend.ImageService
 import com.aboutblank.cnnreader.backend.NewsService
+import com.aboutblank.cnnreader.backend.cache.ArticleCache
 import com.aboutblank.cnnreader.backend.cache.CacheRepo
 import com.aboutblank.cnnreader.backend.remote.CNNRemoteRepo
-import com.aboutblank.cnnreader.utils.ArticleCache
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -39,7 +39,11 @@ class BackendModule(
     @Provides
     @Singleton
     fun provideArticleCache(context: Context, gson: Gson) =
-        ArticleCache(context.getString(R.string.cacheName), context.cacheDir, gson)
+        ArticleCache(
+            context.getString(R.string.cacheName),
+            context.cacheDir,
+            gson
+        )
 
     @Provides
     @Singleton

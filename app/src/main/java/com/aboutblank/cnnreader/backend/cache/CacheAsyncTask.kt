@@ -11,7 +11,7 @@ class RetrieveAsyncTask(val function: () -> Unit) : AsyncTask<Void, Void, Void>(
 
 }
 
-class CacheAsyncTask(val articles: List<Article>, val function: (List<Article>) -> Unit) :
+class CacheAsyncTask(private val articles: List<Article>, val function: (List<Article>) -> Unit) :
     AsyncTask<Void, Void, Void>() {
     override fun doInBackground(vararg params: Void?): Void? {
         function(articles)

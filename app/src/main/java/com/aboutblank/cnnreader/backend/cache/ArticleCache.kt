@@ -1,4 +1,4 @@
-package com.aboutblank.cnnreader.utils
+package com.aboutblank.cnnreader.backend.cache
 
 import android.util.Log
 import com.aboutblank.cnnreader.backend.Article

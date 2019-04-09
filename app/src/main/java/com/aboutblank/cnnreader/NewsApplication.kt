@@ -1,15 +1,12 @@
 package com.aboutblank.cnnreader
 
 import android.app.Application
-import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import com.aboutblank.cnnreader.di.components.AppComponent
 import com.aboutblank.cnnreader.di.components.DaggerAppComponent
 import com.aboutblank.cnnreader.di.modules.BackendModule
 import com.aboutblank.cnnreader.di.modules.UtilsModule
-import com.aboutblank.cnnreader.utils.IntentReceiver
 
-class NewsApplication : Application(), IntentReceiver {
+class NewsApplication : Application() {
     companion object {
         lateinit var appComponent: AppComponent
     }
@@ -27,10 +24,4 @@ class NewsApplication : Application(), IntentReceiver {
             .utilsModule(UtilsModule(this@NewsApplication))
             .build()
     }
-
-    override fun accept(intent: Intent) {
-        intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
-    }
-
 }

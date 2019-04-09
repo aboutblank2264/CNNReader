@@ -1,7 +1,6 @@
 package com.aboutblank.cnnreader.backend.cache
 
 import com.aboutblank.cnnreader.backend.Article
-import com.aboutblank.cnnreader.utils.ArticleCache
 
 interface ICacheRepo {
     fun getArticles(): List<Article>?
